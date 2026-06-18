@@ -236,16 +236,11 @@ class MultiChoiceValueChallenge(BaseChallenge):
 
     @classmethod
     def read(cls, challenge):
-        import random
-
         challenge = MultiChoiceChallenge.query.filter_by(id=challenge.id).first()
 
         # Парсим flagchoose для определения формата
         flagchoose_raw = challenge.flagchoose or ""
         questions_data = []
-
-        # Определяем, нужно ли перемешивать
-        should_shuffle = challenge.shuffle if challenge.shuffle is not None else True
 
         if "¶" in flagchoose_raw:
             # Новый формат: множественные вопросы
@@ -256,25 +251,10 @@ class MultiChoiceValueChallenge(BaseChallenge):
                     continue
                 parts = q_raw.split("¶", 1)
                 if len(parts) == 2:
-                    options_str = parts[1].strip()
-
-                    # Перемешиваем варианты если включено
-                    if should_shuffle:
-                        options_list = options_str.split("§")
-                        random.shuffle(options_list)
-                        options_str = "§".join(options_list)
-
                     questions_data.append({
                         "text": parts[0].strip(),
-                        "options": options_str
+                        "options": parts[1].strip()
                     })
-        else:
-            # Старый формат: один вопрос
-            # Перемешиваем варианты если включено
-            if should_shuffle and flagchoose_raw:
-                options_list = flagchoose_raw.split("§")
-                random.shuffle(options_list)
-                flagchoose_raw = "§".join(options_list)
 
         data = {
             "id":             challenge.id,
