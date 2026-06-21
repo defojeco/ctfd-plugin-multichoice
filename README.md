@@ -4,6 +4,14 @@ Multiple choice challenge type for CTFd — single and multiple correct answer m
 
 No equivalent plugin exists for CTFd. Standard CTFd only supports flag-based challenges.
 
+## Screenshots
+### Create challenge
+![Admin settings](screenshots/create_challenge.png)
+### Edit challenge
+![Login page](screenshots/edit_challenge.png)
+### View challenge
+![Login page](screenshots/view_challenge.png)
+
 ## Features
 
 | Feature | Description |
